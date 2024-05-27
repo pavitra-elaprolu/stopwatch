@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .stopwatch {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            background-color: rgb(255, 0, 0);
+        }
+
+        .time {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button#startStopBtn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        button#resetBtn {
+            background: #3c36f4;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <div id="time" class="time">00:00:00</div>
+        <div class="buttons">
+            <button id="startStopBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let elapsedTime = 0;
+        let running = false;
+        const timeDisplay = document.getElementById('time');
+        const startStopBtn = document.getElementById('startStopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        startStopBtn.addEventListener('click', () => {
+            if (running) {
+                clearInterval(timer);
+                startStopBtn.textContent = 'Start';
+            } else {
+                timer = setInterval(updateTime, 1000);
+                startStopBtn.textContent = 'Stop';
+            }
+            running = !running;
+        });
+
+        resetBtn.addEventListener('click', () => {
+            clearInterval(timer);
+            elapsedTime = 0;
+            timeDisplay.textContent = '00:00:00';
+            startStopBtn.textContent = 'Start';
+            running = false;
+        });
+
+        function updateTime() {
+            elapsedTime++;
+            const hours = Math.floor(elapsedTime / 3600);
+            const minutes = Math.floor((elapsedTime % 3600) / 60);
+            const seconds = elapsedTime % 60;
+            timeDisplay.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        function pad(number) {
+            return number < 10 ? `0${number}` : number;
+        }
+    </script>
+</body>
+</html>
+
